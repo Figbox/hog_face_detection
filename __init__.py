@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, File
+from fastapi import APIRouter, Body, File, HTTPException
 
 from app.core.module_class import ApiModule
 from app.core.package_manager import PackageManager
@@ -21,14 +21,26 @@ class HogFaceDetection(ApiModule):
             try:
                 import cv2
                 import dlib
+                face_detect = dlib.get_frontal_face_detector()
+                rects = face_detect(gray, 1)
+                rt = []
+                for (i, rect) in enumerate(rects):
+                    rect: dlib.rectangle
+                    # print(rect.bottom())
+                    m = {}
+                    m['top'] = rect.top()
+                    m['left'] = rect.left()
+                    m['right'] = rect.right()
+                    m['bottom'] = rect.bottom()
+                    rt.append(m)
+                return rt
             except ModuleNotFoundError as e:
-                return '初期化していない、または初期化失敗'
+                raise HTTPException(412, '初期化していない、または初期化失敗(条件満たしていない)')
 
-    def _get_tag(self) -> str:
-        return 'Hog顔検出'
+        def _get_tag(self) -> str:
+            return 'Hog顔検出'
 
-    def get_module_name(self) -> str:
-        return 'hog_face_detection'
+        def get_module_name(self) -> str:
+            return 'hog_face_detection'
 
-
-hog_face_detection = HogFaceDetection()
+    hog_face_detection = HogFaceDetection()
