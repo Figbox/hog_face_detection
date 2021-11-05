@@ -12,7 +12,7 @@ class HogFaceDetection(ApiModule):
                 ['opencv-python', 'opencv-contrib-python'], 'cv2')
             # dlibのインストールは以下のコマンドが必要です
             # brew install cmake
-            # PackageManager.install_package(['numpy'])
+            PackageManager.install_package(['numpy'])
             PackageManager.install_package(['wheel'])
             PackageManager.install_package(['dlib'])
 
