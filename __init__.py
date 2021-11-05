@@ -1,15 +1,9 @@
-import random
+from fastapi import APIRouter, Body
 
-from fastapi import APIRouter, Body, Depends
-
-from app.core.adaptor.DbAdaptor import DbAdaptor
-from app.core.module_class import TableModule, ApiModule
+from app.core.module_class import ApiModule
 from app.core.package_manager import PackageManager
-from app.core.page_engine.PageAdaptor import PageAdaptor
-from app.modules.sample.table import SampleTable
 
 
-# TODO: change class name
 class HogFaceDetection(ApiModule):
     def _register_api_bp(self, bp: APIRouter):
         @bp.post('/init')
